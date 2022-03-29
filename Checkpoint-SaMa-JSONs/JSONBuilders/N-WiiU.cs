@@ -118,7 +118,18 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
             string gameidkey = gameid.Key.Replace(code, "");
             string[] RegionPriority = { "US", "MX", "ES", "BE", "AU", "AT", "JP", "RU", "GB", "BG", "DE", "DK" };
 
-            JObject titlesJObject = JObject.Parse(gameid.Value.ToString());
+            JToken titles = JsonConvert.DeserializeObject<JToken>(gameid.Value.ToString());
+            foreach (var region in RegionPriority)
+                try
+                {
+                    if (!String.IsNullOrWhiteSpace(titles[region].ToString()))
+                    {
+                        finalTitle = titles[region].ToString();
+                        break;
+                    }
+                }
+                catch (Exception) { }
+            /*JObject titlesJObject = JObject.Parse(gameid.Value.ToString());
             foreach (var title in titlesJObject)
             {
                 if (RegionPriority.Contains(title.Key))
@@ -128,10 +139,10 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
                     finalTitle = title.Value.ToString();
                     tempRegion = title.Key;
                 }
-            }
+            }*/
 
             string image = imagesFolder + $"{gameidkey}.png";
-            if (tempRegion != null && !File.Exists(image))
+            if (!File.Exists(image) && tempRegion != null)
             {
                 var imageresponse = await client.ExecuteAsync(new RestRequest($"/titles/{gameid.Key}-{tempRegion.ToLower()}.json"), Method.Get);
 

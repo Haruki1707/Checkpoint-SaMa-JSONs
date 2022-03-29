@@ -55,9 +55,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
 
             /*foreach (var gameid in N_WiiU.APIresponse)
                 if (gameid.Key.StartsWith(N_WiiU._3DSCode))
-                {
-                    await AddToGames(gameid);
-                }*/
+                    await AddToGames(gameid);*/
 
             List<Task> tasks = new List<Task>();
             foreach (var gameid in N_WiiU.APIresponse)
