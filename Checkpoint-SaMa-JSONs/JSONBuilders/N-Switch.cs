@@ -110,11 +110,16 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
 
         private static async Task AddToGames(TinfoilGame game)
         {
-            Games.Add(new CheckpointSwitchGame()
+            var SwitchGame = new CheckpointSwitchGame()
             {
                 id = game.id,
                 title = StripHTML(game.name)
-            });
+            };
+
+            if (Games.Contains(SwitchGame))
+                return;
+
+            Games.Add(SwitchGame);
             string image = imagesFolder($"{game.id}.png");
             if (!File.Exists(image) && !String.IsNullOrEmpty(game.release_date))
                 await utils.SaveImage($"https://tinfoil.media/ti/{game.id}/128/128", image, ImageFormat.Png);
