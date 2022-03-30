@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -113,7 +114,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
             var SwitchGame = new CheckpointSwitchGame()
             {
                 id = game.id,
-                title = StripHTML(game.name)
+                title = WebUtility.HtmlDecode(StripHTML(game.name))
             };
 
             if (Games.Contains(SwitchGame))
