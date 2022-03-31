@@ -24,11 +24,7 @@ namespace Checkpoint_SaMa_JSONs
 
         private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            _ = N_WiiU.GenerateCheckpointJSON(filePath("wiiu-csm.json"), WiiU_Notify).ConfigureAwait(false);
-            _ = N_3DS.GenerateCheckpointJSON(filePath("3ds-csm.json"), _3DS_Notify).ConfigureAwait(false);
-
-
-            /*Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
             //switch-csm.json build
             if (DateTime.Now > (await utils.DateJSON("switch-csm")).AddDays(1))
             {
@@ -52,7 +48,7 @@ namespace Checkpoint_SaMa_JSONs
                 await utils.NowDateJSON("3ds-csm");
             }
             else
-                finished[2] = true;*/
+                finished[2] = true;
             CloseProgramCheck();
         }
 
