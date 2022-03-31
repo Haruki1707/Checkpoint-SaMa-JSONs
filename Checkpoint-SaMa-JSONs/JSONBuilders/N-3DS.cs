@@ -53,11 +53,11 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
                 if (item.Key.StartsWith(N_WiiU._3DSCode))
                     NTotal++;
 
-            /*foreach (var gameid in N_WiiU.APIresponse)
+            foreach (var gameid in N_WiiU.APIresponse)
                 if (gameid.Key.StartsWith(N_WiiU._3DSCode))
-                    await AddToGames(gameid);*/
+                    await AddToGames(gameid);
 
-            List<Task> tasks = new List<Task>();
+            /*List<Task> tasks = new List<Task>();
             foreach (var gameid in N_WiiU.APIresponse)
                 if (gameid.Key.StartsWith(N_WiiU._3DSCode))
                     tasks.Add(AddToGames(gameid));
@@ -66,7 +66,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
             {
                 var task = await Task.WhenAny(tasks);
                 tasks.Remove(task);
-            }
+            }*/
         }
 
         private static async Task AddToGames(KeyValuePair<string, JToken?> gameid)

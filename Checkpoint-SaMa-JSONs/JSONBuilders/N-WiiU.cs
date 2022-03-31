@@ -83,7 +83,11 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
                 if (item.Key.StartsWith(WiiUCode))
                     NTotal++;
 
-            List<Task> tasks = new List<Task>();
+            foreach (var gameid in N_WiiU.APIresponse)
+                if (gameid.Key.StartsWith(N_WiiU.WiiUCode))
+                    await AddToGames(gameid);
+
+            /*List<Task> tasks = new List<Task>();
             foreach (var gameid in APIresponse)
                 if (gameid.Key.StartsWith(WiiUCode))
                     tasks.Add(AddToGames(gameid));
@@ -92,7 +96,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
             {
                 var task = await Task.WhenAny(tasks);
                 tasks.Remove(task);
-            }
+            }*/
         }
 
         private static async Task AddToGames(KeyValuePair<string, JToken?> gameid)
@@ -115,7 +119,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
 
             string? finalTitle = null;
             string? tempRegion = null;
-            string gameidkey = gameid.Key.Replace(code, "");
+            string gameidkey = gameid.Key.Replace(code, "").ToLower();
             string[] RegionPriority = { "US", "MX", "ES", "BE", "AU", "AT", "JP", "RU", "GB", "BG", "DE", "DK" };
 
             JToken titles = JsonConvert.DeserializeObject<JToken>(gameid.Value.ToString());
@@ -124,6 +128,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
                 {
                     if (!String.IsNullOrWhiteSpace(titles[region].ToString()))
                     {
+                        tempRegion = region;
                         finalTitle = titles[region].ToString();
                         break;
                     }
@@ -144,7 +149,7 @@ namespace Checkpoint_SaMa_JSONs.JSONBuilders
             string image = imagesFolder + $"{gameidkey}.png";
             if (!File.Exists(image) && tempRegion != null)
             {
-                var imageresponse = await client.ExecuteAsync(new RestRequest($"/titles/{gameid.Key}-{tempRegion.ToLower()}.json"), Method.Get);
+                var imageresponse = await client.ExecuteAsync(new RestRequest($"/titles/{gameid.Key.ToLower()}-{tempRegion.ToLower()}.json"), Method.Get);
 
                 if (imageresponse.IsSuccessful && imageresponse.StatusCode != HttpStatusCode.NotFound && imageresponse.Content != null)
                 {
